@@ -1,0 +1,8 @@
+# Küçük mükemmel labirent
+WIDTH=10
+HEIGHT=10
+ENTRY=0,0
+EXIT=9,9
+OUTPUT_FILE=output_maze.txt
+PERFECT=True
+SEED=1
