@@ -342,7 +342,7 @@ Değerlendirme sırasında test edilecek tüm senaryolar çıkarıldı:
 - Yeniden kullanılabilir modül: farklı sanal ortamda derleme → kurulum → çalıştırma zinciri test edilecek
 - README'nin **her bölümü tek tek** kontrol edilecek — herhangi biri eksikse not = 0
 
-#### ▸ İlk diyagram incelendi ve düzeltildi (`Diagram/diagram.md`)
+#### ▸ İlk diyagram incelendi ve düzeltildi (`diagram/diagram.md`)
 
 Başka bir yapay zeka tarafından hazırlanan ilk tam proje ağacı incelendi. Tespit edilen sorunlar:
 
@@ -353,7 +353,7 @@ Başka bir yapay zeka tarafından hazırlanan ilk tam proje ağacı incelendi. T
 - `tmp/` dosyaları `# tmp -> açıklaması` formatıyla etiketlendi
 - `maze_analyzer.py` hiç yoktu → eklendi, `[KONU TARAFINDAN VERİLİYOR]` notu ile
 
-#### ▸ Minimal diyagram oluşturuldu (`Diagram/diagram_minimal.md`)
+#### ▸ Minimal diyagram oluşturuldu (`diagram/diagram_minimal.md`)
 
 PDF ve değerlendirme belgesine dayanarak yalnızca gerekli dosyaları içeren temiz bir yapı çıkarıldı.
 
@@ -435,7 +435,7 @@ Her adım için `diagram_minimal.md`'de ayrıntılı açıklama yazıldı:
 - Her adım için tablo: `Ne yapar / İçerik / Değerlendirme testi / Çıktı`
 - Bonus öncelik tablosu
 
-Eski düz metin versiyon `Diagram/diagram_minimal_ilk.md` olarak yedeklendi.
+Eski düz metin versiyon `diagram/diagram_minimal_ilk.md` olarak yedeklendi.
 
 ---
 
@@ -487,7 +487,7 @@ Tüm dosyalar boş iskelet olarak oluşturuldu — uygulama bekliyor.
 - Geçici dosyaların (`__pycache__`, vb.) kök dizini kirletmemesi için hepsi `obj/` klasörüne yönlendirildi ve `make clean` ile entegre edildi.
 - Risk oluşturmaması adına yapılandırma dosyalarındaki (`Makefile`, vb.) tüm yorum satırları temizlendi.
 - Kodlama sırasını takip edebilmek için 32 boş Python dosyasının en üstüne numaralı yönlendirme notları (`# ADIM X: ...`) eklendi.
-- `Diagram/diagram_minimal.md` ile gerçek klasör yapısının `%100` uyumlu olduğu teyit edildi.
+- `diagram/diagram_minimal.md` ile gerçek klasör yapısının `%100` uyumlu olduğu teyit edildi.
 - Rehberli kodlama (pair-programming) kararı alınarak, kodun bizzat öğrenci tarafından yazılması aşamasına geçildi.
 
 ---
