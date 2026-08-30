@@ -1,0 +1,43 @@
+[project]
+name = "mazegen"
+version = "0.1.0"
+description = "A reusable maze generator module for the 42 A-Maze-Ing project"
+authors = [
+  { name = "ybalkan", email = "ybalkan@student.42kocaeli.com.tr" },
+  { name = "iuslu",   email = "iuslu@student.42kocaeli.com.tr" },
+]
+license = { file = "LICENSE.md" }
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = []
+# NOT: Kod yazılırken dış kütüphane kullanılırsa buraya ekle.
+# Örnek: dependencies = ["mlx>=2.2", "numpy>=1.24"]
+# Şu an boş — saf stdlib ile gidilecek, gerekirse güncelle.
+
+
+[project.optional-dependencies]
+dev = ["flake8", "mypy", "pytest", "build"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/mazegen"]
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_ignores = true
+ignore_missing_imports = true
+disallow_untyped_defs = true
+check_untyped_defs = true
+
+[tool.pytest.ini_options]
+cache_dir   = "obj/.pytest_cache"
+testpaths   = ["tests"]
+addopts     = "-v"
+
+[tool.flake8]
+max-line-length = 99
+exclude = [".venv", "obj", "build", "dist", "*.egg-info"]
