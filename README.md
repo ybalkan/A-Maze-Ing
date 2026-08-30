@@ -284,6 +284,16 @@ python3 -m build
 | Bonus: braided, prim, kruskal, animation | — | 🔲 Bekliyor |
 | Son inceleme + değerlendirme hazırlığı | — | 🔲 Bekliyor |
 
+### İyi ve Geliştirilebilecek Yönler (Retrospektif)
+
+**İyi Giden Şeyler:**
+- Yapay zeka eşliğinde başlangıçta çok sağlam bir proje iskeleti ve mimari plan oluşturmamız, ileride yaşanacak karmaşayı engelledi.
+- Baştan `.gitignore`, `Makefile` ve geçici dosya temizliği (obj/) gibi standartları oturtmak, geliştirme ortamımızı çok temiz tuttu.
+
+**Geliştirilebilecek Yönler (İyileştirmeler):**
+- Yapay zekanın doğrudan kod yazması yerine rehber (pair-programmer) olarak kullanılması gerektiği başta net değildi, bu stratejiyi sonradan oturtmamız gerekti.
+- Büyük labirent boyutlarında (örneğin 100x100) Python'ın varsayılan rekürsiyon limiti (recursion limit) sorun yaratabilir, optimizasyon gerekecek.
+
 ### Kullanılan araçlar
 - **Antigravity IDE** — Yapay zeka destekli mimari planlama ve diyagram oluşturma
 - **Python 3.14** — Ana dil
@@ -470,6 +480,15 @@ Tüm dosyalar boş iskelet olarak oluşturuldu — uygulama bekliyor.
 - Kaynaklar + yapay zeka kullanımı açıklaması
 - Takım & Planlama tablosu
 - Geliştirme Günlüğü (bu bölüm)
+
+#### ▸ Proje İskeleti PDF ve Evaluation Sheet'e Göre Doğrulandı
+
+- `Makefile`, `pyproject.toml` ve `.gitignore` dosyaları 42 standartlarına uygun olarak revize edildi.
+- Geçici dosyaların (`__pycache__`, vb.) kök dizini kirletmemesi için hepsi `obj/` klasörüne yönlendirildi ve `make clean` ile entegre edildi.
+- Risk oluşturmaması adına yapılandırma dosyalarındaki (`Makefile`, vb.) tüm yorum satırları temizlendi.
+- Kodlama sırasını takip edebilmek için 32 boş Python dosyasının en üstüne numaralı yönlendirme notları (`# ADIM X: ...`) eklendi.
+- `Diagram/diagram_minimal.md` ile gerçek klasör yapısının `%100` uyumlu olduğu teyit edildi.
+- Rehberli kodlama (pair-programming) kararı alınarak, kodun bizzat öğrenci tarafından yazılması aşamasına geçildi.
 
 ---
 
