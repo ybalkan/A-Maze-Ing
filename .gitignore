@@ -1,0 +1,59 @@
+# ── Geçici / derleme klasörü ──────────────────────────
+obj/
+
+# ── Python bytecode ───────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# ── Sanal ortamlar ────────────────────────────────────
+.venv/
+venv/
+env/
+.env
+
+# ── Build & dağıtım artıkları ─────────────────────────
+*.egg-info/
+dist/
+build/
+*.egg
+MANIFEST
+
+# ── Tip & lint cache ─────────────────────────────────
+.mypy_cache/
+.ruff_cache/
+.dmypy.json
+dmypy.json
+
+# ── Test ──────────────────────────────────────────────
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+*.cover
+
+# ── macOS ─────────────────────────────────────────────
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+
+# ── IDE & editör ──────────────────────────────────────
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.pydevproject
+
+# ── Jupyter ───────────────────────────────────────────
+.ipynb_checkpoints/
+*.ipynb
+
+# ── Paket logları ─────────────────────────────────────
+pip-log.txt
+pip-delete-this-directory.txt
