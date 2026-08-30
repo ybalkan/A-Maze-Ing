@@ -1,0 +1,8 @@
+# Tekrarlanabilirlik testi — her çalıştırmada aynı labirent
+WIDTH=20
+HEIGHT=15
+ENTRY=0,0
+EXIT=19,14
+OUTPUT_FILE=output_maze.txt
+PERFECT=False
+SEED=42
