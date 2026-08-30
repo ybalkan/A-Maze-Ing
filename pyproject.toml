@@ -38,6 +38,4 @@ cache_dir   = "obj/.pytest_cache"
 testpaths   = ["tests"]
 addopts     = "-v"
 
-[tool.flake8]
-max-line-length = 99
-exclude = [".venv", "obj", "build", "dist", "*.egg-info"]
+
