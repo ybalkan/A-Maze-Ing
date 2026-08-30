@@ -1,0 +1,8 @@
+# Orta boyut, Pac-Man modu
+WIDTH=30
+HEIGHT=20
+ENTRY=0,0
+EXIT=29,19
+OUTPUT_FILE=output_maze.txt
+PERFECT=False
+SEED=100
