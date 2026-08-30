@@ -1,0 +1,7 @@
+# Hata: WIDTH sayı yerine harf
+WIDTH=twenty
+HEIGHT=15
+ENTRY=0,0
+EXIT=19,14
+OUTPUT_FILE=output_maze.txt
+PERFECT=False
