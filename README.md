@@ -273,7 +273,7 @@ python3 -m build
 |-------|-------------|-------|
 | Gereksinim analizi ve mimari | 2026-08-29 | ✅ Tamamlandı |
 | Proje iskeleti (klasör + dosya yapısı) | 2026-08-30 | ✅ Tamamlandı |
-| Modeller: direction, cell, maze, solution | 2026-09-01 | ✅ Tamamlandı |
+| Modeller: direction, cell, maze, solution | 2026-09-05 | ✅ Tamamlandı |
 | Parser: config_parser, validator, hex_decoder | — | 🔲 Bekliyor |
 | Üretim: recursive_backtracker | — | 🔲 Bekliyor |
 | Çözüm: bfs_solver | — | 🔲 Bekliyor |
@@ -492,7 +492,7 @@ Tüm dosyalar boş iskelet olarak oluşturuldu — uygulama bekliyor.
 
 ---
 
-### 📅 2026-09-01 — Models Katmanı Kodlama Günü
+### 📅 2026-09-05 — Models Katmanı Kodlama Günü
 
 #### ▸ `direction.py` yazıldı ve doğrulandı
 
