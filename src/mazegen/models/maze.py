@@ -17,7 +17,7 @@ class Maze:
             for row in range(self.height)
         ]
     def get_cell(self, col: int, row: int) -> Cell:
-        if not self.in_bound(col, row):
+        if not self.in_bounds(col, row):
             raise ValueError(f"Invalid coordinate: ({col},{row})")
         else:
             return self.grid[col][row]
@@ -29,7 +29,7 @@ class Maze:
         neighbors = []
 
         for direction in Direction:
-            if not cell.has_wal(direction):
+            if not cell.has_wall(direction):
                 n_col = cell.col + direction.dx
                 n_row = cell.row + direction.dy
                 if self.in_bounds(n_col, n_row):
@@ -40,7 +40,7 @@ class Maze:
         accessable = []
 
         for direction in Direction:
-            if not cell.has_wal(direction):
+            if not cell.has_wall(direction):
                 n_col = cell.col + direction.dx
                 n_row = cell.row + direction.dy
                 if self.in_bounds(n_col, n_row):
