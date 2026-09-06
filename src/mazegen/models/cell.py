@@ -9,7 +9,7 @@ class Cell:
     walls: int = 0b1111
     visited: bool = False
 
-    def has_wal(self, direction: Direction) -> bool:
+    def has_wall(self, direction: Direction) -> bool:
         return bool(self.walls & direction.value)
 
     def add_wall(self, direction: Direction) -> None:
