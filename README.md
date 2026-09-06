@@ -273,7 +273,7 @@ python3 -m build
 |-------|-------------|-------|
 | Gereksinim analizi ve mimari | 2026-08-29 | ✅ Tamamlandı |
 | Proje iskeleti (klasör + dosya yapısı) | 2026-08-30 | ✅ Tamamlandı |
-| Modeller: direction, cell, maze, solution | — | 🔲 Bekliyor |
+| Modeller: direction, cell, maze, solution | 2026-09-01 | ✅ Tamamlandı |
 | Parser: config_parser, validator, hex_decoder | — | 🔲 Bekliyor |
 | Üretim: recursive_backtracker | — | 🔲 Bekliyor |
 | Çözüm: bfs_solver | — | 🔲 Bekliyor |
@@ -492,13 +492,54 @@ Tüm dosyalar boş iskelet olarak oluşturuldu — uygulama bekliyor.
 
 ---
 
+### 📅 2026-09-01 — Models Katmanı Kodlama Günü
+
+#### ▸ `direction.py` yazıldı ve doğrulandı
+
+- `Direction` enum'u PDF spec'e göre bit sırasıyla tanımlandı: `NORTH=0b0001`, `EAST=0b0010`, `SOUTH=0b0100`, `WEST=0b1000`
+- `.opposite` (karşı yön), `.delta` (koordinat farkı), `.dx` / `.dy` (yatay/dikey kısayollar) property'leri eklendi.
+- `maze_analyzer.py` ile uyumlu hex çıktısı için bit sırası doğrulandı: `bit 0 (LSB) = North, bit 1 = East, bit 2 = South, bit 3 = West`
+- `flake8` ve `mypy` sıfır hata/uyarı ile geçti.
+
+#### ▸ `cell.py` yazıldı (ve sonrasında `dataclass` olarak güncellendi)
+
+- `Cell` sınıfı okunabilirliği artırmak ve otomatik `__eq__` (eşitlik) metodundan faydalanmak için `dataclass` yapısına geçirildi.
+- Her hücre başlangıçta `walls = 0b1111` (4 duvar kapalı) ve `visited = False` ile oluşturuluyor.
+- Bitmask tabanlı `has_wall()`, `add_wall()`, `remove_wall()` metodları eklendi.
+- `to_hex()` / `from_hex()` metodlarıyla PDF çıktı formatına (`output_maze.txt`) doğrudan uyumlu hex dönüşümü sağlandı.
+
+#### ▸ `maze.py` yazıldı (ve sonrasında `dataclass` olarak güncellendi)
+
+- `Maze` sınıfı `dataclass` yapısına geçirilerek, `grid` alanı `__post_init__` içerisinde başlatıldı.
+- `width × height` boyutunda `Cell` matrisi oluşturuluyor: `grid[row][col]`
+- `get_cell()`, `in_bounds()`, `get_adjacent_cells()`, `get_accessible_neighbors()` metodları eklendi.
+- `remove_wall_between(cell, neighbor, direction)` her iki komşuda da duvarı eş zamanlı kaldırıyor (tutarlılık garantisi).
+- `reset_visited_flags()` üretimden çözüme geçiş için eklendi.
+
+#### ▸ `solution.py` yazıldı
+
+- Yol koordinatları (`path_cells`) ve yön listesi (`directions`) ayrı ayrı saklanıyor.
+- `to_string()` PDF'te istenen `"N E S W ..."` formatını üretiyor.
+
+#### ▸ `__init__.py` dışa aktarma yapısı kuruldu
+
+- `Direction`, `Cell`, `Maze`, `Solution` tek bir noktadan (`from mazegen.models import ...`) erişilebilir.
+
+#### ▸ Kritik import sorunu tespit edilip düzeltildi
+
+- Tüm dosyalardaki `from src.mazegen.models...` mutlak importlar `from .direction import Direction` gibi **göreli import**'lara çevrildi.
+- Neden önemli: `pip install mazegen.whl` sonrası paket `mazegen` olarak kurulur; `src.mazegen` yolu geçersiz hale gelir → değerlendirme fail olurdu.
+- Her iki senaryo doğrulandı: root'tan `python3 a_maze_ing.py` ✅ ve `pip install` sonrası `from mazegen.models import ...` ✅
+
+---
+
 ### 🔲 Sıradaki Adımlar
 
 ```
-[ ] src/mazegen/models/direction.py         ← BURADAN BAŞLA
-[ ] src/mazegen/models/cell.py
-[ ] src/mazegen/models/maze.py
-[ ] src/mazegen/models/solution.py
+[x] src/mazegen/models/direction.py
+[x] src/mazegen/models/cell.py
+[x] src/mazegen/models/maze.py
+[x] src/mazegen/models/solution.py
 [ ] src/mazegen/parser/config_parser.py
 [ ] src/mazegen/parser/validator.py
 [ ] src/mazegen/parser/hex_decoder.py
