@@ -617,7 +617,7 @@ Tüm dosyalar boş iskelet olarak oluşturuldu — uygulama bekliyor.
 
 - Tüm dosyalardaki `from src.mazegen.models...` mutlak importlar `from .direction import Direction` gibi **göreli import**'lara çevrildi.
 - Neden önemli: `pip install mazegen.whl` sonrası paket `mazegen` olarak kurulur; `src.mazegen` yolu geçersiz hale gelir → değerlendirme fail olurdu.
-- Her iki senaryo doğrulandı: root'tan `python3 a_maze_ing.py` ✅ ve `pip install` sonrası `from mazegen.models import ...` ✅
+- Her iki senaryo doğrulandı: root'tan `python3 a_maze_ing.py` ✅ ve `pip install` sonrası `from mazegen.models import ...` ✅ 
 
 ---
 
