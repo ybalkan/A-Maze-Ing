@@ -126,7 +126,95 @@ Program tüm yapılandırma hatalarını çökmeden yakalar:
 
 ---
 
+## Parser Modülü (`src/mazegen/parser/`)
+
+Yapılandırma dosyasını okuma, doğrulama ve hex dönüşümü işlemlerini yürüten modüller.
+
+### `config_parser.py` — Yapılandırma okuyucu
+
+Config dosyasını satır satır okur, yorumları atlar, anahtar-değer çiftlerini doğru tiplere dönüştürür.
+
+```python
+from mazegen.parser import parse_config
+
+cfg = parse_config("configs/config.txt")
+# {'WIDTH': 20, 'HEIGHT': 15, 'ENTRY': (0, 0),
+#  'EXIT': (19, 14), 'OUTPUT_FILE': 'output_maze.txt',
+#  'PERFECT': False, 'SEED': 42}
+```
+
+| Anahtar | Python tipi |
+|---|---|
+| `WIDTH`, `HEIGHT` | `int` |
+| `ENTRY`, `EXIT` | `tuple[int, int]` — `(col, row)` |
+| `PERFECT` | `bool` |
+| `SEED` | `int \| None` |
+| `OUTPUT_FILE` | `str` |
+
+### `validator.py` — Doğrulayıcı
+
+`parse_config()` çıktısını alır, hatalı değerlerde `ValueError` fırlatır.
+
+```python
+from mazegen.parser import validate_config
+
+validate_config(cfg)  # Hata yoksa sessizce geçer
+```
+
+Kontrol edilen kurallar:
+- Zorunlu anahtarların tümü mevcut mu?
+- `WIDTH` ve `HEIGHT` en az 1 mi?
+- `ENTRY` ve `EXIT` grid sınırları içinde mi (`0 <= col < WIDTH`, `0 <= row < HEIGHT`)?
+
+### `hex_decoder.py` — Hex ↔️ Maze dönüştürücü
+
+Hex string satırlarını `Maze` nesnesine uygular; `Maze` nesnesini hex satırlarına çevirir.
+
+```python
+from mazegen.parser import maze_to_hex_lines, apply_hex_lines_to_maze
+
+# Maze → hex satırları (output dosyası için)
+lines = maze_to_hex_lines(maze)  # ['9135', 'ac2a', ...]
+
+# Hex satırları → Maze (config dosyası okunduğunda)
+apply_hex_lines_to_maze(maze, lines)
+```
+
+Hex encoding kuralı:
+
+| Bit | Yön | Değer |
+|---|---|---|
+| bit 0 | North | `0x1` |
+| bit 1 | East | `0x2` |
+| bit 2 | South | `0x4` |
+| bit 3 | West | `0x8` |
+
+`1` = duvar var (kapalı), `0` = duvar yok (açık).
+
+`hex_string_to_row()` fonksiyonu tek bir hex string satırını integer listesine çevirir:
+
+```python
+from mazegen.parser import hex_string_to_row
+
+hex_string_to_row('9a5f')  # [9, 10, 5, 15]
+```
+
+### Public API özeti
+
+```python
+from mazegen.parser import (
+    parse_config,           # config.txt → dict
+    validate_config,        # dict doğrulama, ValueError fırlatır
+    hex_string_to_row,      # '9a5f' → [9, 10, 5, 15]
+    maze_to_hex_lines,      # Maze → ['9135', 'ac2a', ...]
+    apply_hex_lines_to_maze # ['9135', ...] → Maze (yerinde günceller)
+)
+```
+
+---
+
 ## Çıktı Dosyası Formatı
+
 
 Çıktı dosyası `OUTPUT_FILE` anahtarıyla belirtilen yola yazılır.
 
@@ -274,8 +362,8 @@ python3 -m build
 | Gereksinim analizi ve mimari | 2026-08-29 | ✅ Tamamlandı |
 | Proje iskeleti (klasör + dosya yapısı) | 2026-08-30 | ✅ Tamamlandı |
 | Modeller: direction, cell, maze, solution | 2026-09-05 | ✅ Tamamlandı |
-| Parser: config_parser, validator, hex_decoder | — | 🔲 Bekliyor |
-| Üretim: recursive_backtracker | — | 🔲 Bekliyor |
+| Parser: config_parser, validator, hex_decoder | 2026-09-07 | ✅ Tamamlandı |
+| Üretim: recursive_backtracker | 2026-09-07 | ✅ Tamamlandı |
 | Çözüm: bfs_solver | — | 🔲 Bekliyor |
 | Dosya yazma: output_writer | — | 🔲 Bekliyor |
 | Görselleştirme: ascii_renderer + etkileşimler | — | 🔲 Bekliyor |
@@ -540,9 +628,9 @@ Tüm dosyalar boş iskelet olarak oluşturuldu — uygulama bekliyor.
 [x] src/mazegen/models/cell.py
 [x] src/mazegen/models/maze.py
 [x] src/mazegen/models/solution.py
-[ ] src/mazegen/parser/config_parser.py
-[ ] src/mazegen/parser/validator.py
-[ ] src/mazegen/parser/hex_decoder.py
+[x] src/mazegen/parser/config_parser.py
+[x] src/mazegen/parser/validator.py
+[x] src/mazegen/parser/hex_decoder.py
 [ ] src/mazegen/generation/generator_base.py
 [ ] src/mazegen/generation/recursive_backtracker.py
 [ ] src/mazegen/solving/bfs_solver.py
