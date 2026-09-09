@@ -4,8 +4,8 @@ from .direction import Direction
 
 @dataclass(repr=False)
 class Cell:
-    row: int
     col: int
+    row: int
     walls: int = 0b1111
     visited: bool = False
 
@@ -25,4 +25,4 @@ class Cell:
         self.walls = int(hex_char, 16)
 
     def __repr__(self) -> str:
-        return f"Cell(row={self.row}, col={self.col}, hex='{self.to_hex()}')"
+        return f"Cell(col={self.col}, row={self.row}, hex='{self.to_hex()}')"

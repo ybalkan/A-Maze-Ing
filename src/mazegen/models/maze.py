@@ -23,7 +23,7 @@ class Maze:
             return self.grid[col][row]
 
     def in_bounds(self, col: int, row: int):
-        return 0 < row < self.height and 0 <= col < self.width
+        return 0 <= row < self.height and 0 <= col < self.width
 
     def get_adjacent_cell(self, cell: Cell) -> List[Tuple[Direction, Cell]]:
         neighbors = []
@@ -33,7 +33,7 @@ class Maze:
                 n_col = cell.col + direction.dx
                 n_row = cell.row + direction.dy
                 if self.in_bounds(n_col, n_row):
-                    neighbors.append((direction, self.grid[n_col][n_row]))
+                    neighbors.append((direction, self.grid[n_row][n_col]))
         return neighbors
 
     def get_accessable_neighbors(self, cell: Cell) -> List[Tuple[Direction, Cell]]:
@@ -44,7 +44,7 @@ class Maze:
                 n_col = cell.col + direction.dx
                 n_row = cell.row + direction.dy
                 if self.in_bounds(n_col, n_row):
-                    accessable.append((direction, self.grid[n_col][n_row]))
+                    accessable.append((direction, self.grid[n_row][n_col]))
         return accessable
 
     def remove_wall_between(self, cell: Cell, neighbor: Cell, direction: Direction) -> None:
