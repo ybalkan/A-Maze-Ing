@@ -1,4 +1,3 @@
-# ADIM 11 (Temel) - Ana labirent üretme algoritması (DFS tabanlı)
 import random
 from mazegen.models.maze import Maze
 from mazegen.models.direction import Direction
@@ -11,7 +10,6 @@ class RecursiveBacktracker(GeneratorBase):
         maze = Maze(self.width, self.height)
         rng = random.Random(self.seed)
 
-        # Başlangıç hücresi: (col=0, row=0)
         start = maze.grid[0][0]
         start.visited = True
         stack = [start]
