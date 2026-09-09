@@ -166,7 +166,7 @@ Kontrol edilen kurallar:
 - `WIDTH` ve `HEIGHT` en az 1 mi?
 - `ENTRY` ve `EXIT` grid sınırları içinde mi (`0 <= col < WIDTH`, `0 <= row < HEIGHT`)?
 
-### `hex_decoder.py` — Hex ↔️ Maze dönüştürücü
+### `hex_decoder.py` — Hex ↔ Maze dönüştürücü
 
 Hex string satırlarını `Maze` nesnesine uygular; `Maze` nesnesini hex satırlarına çevirir.
 
@@ -223,7 +223,7 @@ from mazegen.parser import (
 \n
 <ENTRY x,y>\n
 <EXIT x,y>\n
-<boşlukla ayrılmış N/E/S/W yönleri>\n
+<boşluksuz N/E/S/W yönleri — örn: ESEENEEESSSEENEE>\n
 ```
 
 Her hex karakter, bir hücrenin dört duvarını bit olarak kodlar:
@@ -293,7 +293,7 @@ mg.generate()
 
 # Çöz (en kısa yolu bul)
 solution = mg.solve()
-print(solution.to_string())  # "N E E S S W ..."
+print(solution.to_string())  # "NEESSW..."
 
 # Labirent yapısına eriş
 maze = mg.get_maze()
@@ -333,6 +333,17 @@ python3 -m build
 - [Mazes for Programmers — kitap](http://www.mazesforprogrammers.com/)
 - [Vikipedi: Labirent üretim algoritması](https://en.wikipedia.org/wiki/Maze_generation_algorithm)
 
+## Algoritmalar
+- [Algo - Youtube](https://www.youtube.com/watch?v=ioUl1M77hww)
+- [Algo - Youtube](https://www.youtube.com/watch?v=sVcB8vUFlmU)
+- [Kruskal - Youtube](https://www.youtube.com/watch?v=WG59R5RmK_Q)
+- [DFS - Youtube](https://www.youtube.com/watch?v=p9m2LHBW81M)
+- [DFS - Youtube](https://www.youtube.com/watch?v=KWeeTMwFA9Y)
+- [DFS - Youtube](https://www.youtube.com/watch?v=HyK_Q5rrcr4&t=116s)
+- [DFS - Youtube](https://www.youtube.com/watch?v=4L7BDRmH4cM)
+- [Prim - Youtube](https://www.youtube.com/watch?v=68a757C2jYc)
+- [Prim - Youtube](https://www.youtube.com/watch?v=HyK_Q5rrcr4&t=116s)
+
 ### En kısa yol
 - [BFS — Vikipedi](https://en.wikipedia.org/wiki/Breadth-first_search)
 - [Graf geçiş algoritmaları](https://en.wikipedia.org/wiki/Graph_traversal)
@@ -364,12 +375,13 @@ python3 -m build
 | Modeller: direction, cell, maze, solution | 2026-09-05 | ✅ Tamamlandı |
 | Parser: config_parser, validator, hex_decoder | 2026-09-07 | ✅ Tamamlandı |
 | Üretim: recursive_backtracker | 2026-09-07 | ✅ Tamamlandı |
-| Çözüm: bfs_solver | — | 🔲 Bekliyor |
+| Bonus üretim: prim, kruskal, braided | 2026-09-08 | ✅ Tamamlandı |
+| Çözüm: bfs_solver, dijkstra_solver, a_star_solver | 2026-09-09 | ✅ Tamamlandı |
+| Kapsamlı kod denetimi ve bug düzeltmeleri | 2026-09-09 | ✅ Tamamlandı |
 | Dosya yazma: output_writer | — | 🔲 Bekliyor |
 | Görselleştirme: ascii_renderer + etkileşimler | — | 🔲 Bekliyor |
 | API: MazeGenerator sınıfı + paketleme | — | 🔲 Bekliyor |
-| Makefile + pyproject.toml | — | 🔲 Bekliyor |
-| Bonus: braided, prim, kruskal, animation | — | 🔲 Bekliyor |
+| Makefile + pyproject.toml tamamlanması | — | 🔲 Bekliyor |
 | Son inceleme + değerlendirme hazırlığı | — | 🔲 Bekliyor |
 
 ### İyi ve Geliştirilebilecek Yönler (Retrospektif)
@@ -617,7 +629,81 @@ Tüm dosyalar boş iskelet olarak oluşturuldu — uygulama bekliyor.
 
 - Tüm dosyalardaki `from src.mazegen.models...` mutlak importlar `from .direction import Direction` gibi **göreli import**'lara çevrildi.
 - Neden önemli: `pip install mazegen.whl` sonrası paket `mazegen` olarak kurulur; `src.mazegen` yolu geçersiz hale gelir → değerlendirme fail olurdu.
-- Her iki senaryo doğrulandı: root'tan `python3 a_maze_ing.py` ✅ ve `pip install` sonrası `from mazegen.models import ...` ✅ 
+- Her iki senaryo doğrulandı: root'tan `python3 a_maze_ing.py` ✅ ve `pip install` sonrası `from mazegen.models import ...` ✅
+
+---
+
+---
+
+### 📅 2026-09-08 — Generation Katmanı Kodlama Günü
+
+#### ▸ `generator_base.py` tamamlandı
+
+- `GeneratorBase` soyut sınıfı `GeneratorBase(ABC)` olarak tanımlandı.
+- `width`, `height`, `seed` parametreleri zorunlu; `generate() -> Maze` metodu soyut.
+
+#### ▸ `recursive_backtracker.py` tamamlandı
+
+- DFS tabanlı iteratif implementasyon (stack ile, Python recursion limitini aşmaz).
+- `random.Random(seed)` ile izole rastgelelik — global `random` state'i kirletmez.
+- Seed tekrarlanabilirliği doğrulandı: aynı seed → birebir aynı labirent.
+
+#### ▸ Bonus üretim algoritmaları tamamlandı
+
+- `prim.py` — frontier listesi tabanlı Random Prim; daha kısa koridorlar, fazla dal.
+- `kruskal.py` — Union-Find (path halving optimizasyonu) ile Kruskal; uniform dağılım.
+- `braided.py` — DFS perfect maze üretip dead-end hücreleri `braid_ratio` oranında açar.
+  - `maze_analyzer --max-dead-ends 0` ile doğrulandı.
+
+#### ▸ `generation/__init__.py` güncellendi
+
+- `RecursiveBacktracker`, `PrimGenerator`, `KruskalGenerator`, `BraidedGenerator` export edildi.
+
+---
+
+### 📅 2026-09-09 — Solving Katmanı & Kapsamlı Denetim Günü
+
+#### ▸ `solver_base.py` tamamlandı
+
+- `SolverBase(ABC)` — `GeneratorBase` ile simetrik yapı.
+- `maze`, `entry: tuple[int,int]`, `exit_: tuple[int,int]` alır; `solve() -> Solution | None` soyut.
+
+#### ▸ `bfs_solver.py` tamamlandı (zorunlu)
+
+- BFS ile garantili en kısa yol; `came_from` sözlüğüyle yol geri izleme.
+- `get_accessible_neighbors()` ile duvar-farkında geçiş.
+- `Solution` nesnesi döner — `to_string()` → `"ESEENEE..."` (boşluksuz N/E/S/W).
+
+#### ▸ Bonus çözüm algoritmaları tamamlandı
+
+- `dijkstra_solver.py` — min-heap tabanlı; uniform-cost labirentlerde BFS ile eşdeğer, ağırlıklı genişletilebilir.
+- `astar_solver.py` — Manhattan heuristiği; admissible + consistent, optimal yol garantili.
+- **Doğrulama:** BFS = Dijkstra = A\* = 66 adım (10×10, seed=42) — hepsi aynı optimal yolu buluyor.
+
+#### ▸ Kapsamlı kod denetimi yapıldı
+
+Tüm faz dökümanları, `diagram_minimal.md`, `diagram_min.md` ve resmi `maze_analyzer.py` (EV aracı) ile karşılaştırıldı. Tespit ve düzeltmeler:
+
+| Dosya | Hata | Düzeltme |
+|---|---|---|
+| `cell.py` | `dataclass(eq=True)` `__hash__`'i siliyor; Cell dict key olamazdı | `unsafe_hash=True` eklendi |
+| `maze.py` | `get_adjacent_cell` ve `get_accessable_neighbors` tamamen aynı kod (duplicate) | `get_adjacent_cell` → duvarsız tüm komşular; `get_accessible_neighbors` → açık duvarlar (typo düzeltildi) |
+| `models/__init__.py` | Tamamen boştu, hiçbir sınıf export edilmiyordu | `Cell, Direction, Maze, Solution` eklendi |
+| `validator.py` | `ENTRY==EXIT` kontrolü docstring'de vardı ama kodda yoktu | `entry == exit_` kontrolü eklendi |
+| `prim.py` | `frontier` listesinde `object` type hint kullanılıyordu | `Cell` import edilerek doğru tip anotasyonları yapıldı |
+| `solution.py` | `to_string()` → `"N E S W"` (boşluklu) üretiyordu | `"".join(...)` → `"NESW"` (boşluksuz, PDF uyumlu) |
+| `config_parser.py` | `ENTRY=0;0` formatı `IndexError` fırlatıyordu | `try/except` ile temiz `ValueError` — 5. EV senaryosu artık geçiyor |
+| `maze_analyzer.py` | Root'ta boş dosyaydı | `42/maze_analyzer.py`'den kopyalandı |
+
+#### ▸ 5 EV hata senaryosunun tamamı geçti
+
+```
+1. Zorunlu key eksik        → ValueError: Config eksik: 'EXIT' bulunamadı.
+2. = işareti olmayan satır  → Satır atlandı, crash yok.
+3. WIDTH=abc                → ValueError: invalid literal for int()
+4. PERFECT=maybe            → False döndü (crash yok)
+5. ENTRY=0;0                → ValueError: Geçersiz koordinat formatı
+```
 
 ---
 
@@ -628,19 +714,27 @@ Tüm dosyalar boş iskelet olarak oluşturuldu — uygulama bekliyor.
 [x] src/mazegen/models/cell.py
 [x] src/mazegen/models/maze.py
 [x] src/mazegen/models/solution.py
+[x] src/mazegen/models/__init__.py
 [x] src/mazegen/parser/config_parser.py
 [x] src/mazegen/parser/validator.py
 [x] src/mazegen/parser/hex_decoder.py
-[ ] src/mazegen/generation/generator_base.py
-[ ] src/mazegen/generation/recursive_backtracker.py
-[ ] src/mazegen/solving/bfs_solver.py
+[x] src/mazegen/generation/generator_base.py
+[x] src/mazegen/generation/recursive_backtracker.py
+[x] src/mazegen/generation/prim.py          (Bonus B2)
+[x] src/mazegen/generation/kruskal.py       (Bonus B2)
+[x] src/mazegen/generation/braided.py       (Bonus B1)
+[x] src/mazegen/solving/solver_base.py
+[x] src/mazegen/solving/bfs_solver.py
+[x] src/mazegen/solving/dijkstra_solver.py  (Bonus)
+[x] src/mazegen/solving/astar_solver.py     (Bonus)
+[x] maze_analyzer.py                        (root'a kopyalandı)
 [ ] src/mazegen/io/output_writer.py
 [ ] src/mazegen/rendering/color_palette.py
 [ ] src/mazegen/rendering/ascii_renderer.py
 [ ] src/mazegen/api/maze_generator.py
+[ ] src/mazegen/__init__.py                 (MazeGenerator export)
 [ ] a_maze_ing.py
-[ ] Makefile + pyproject.toml tamamlanması
-[ ] BONUS: braided, prim, kruskal, animation
-[ ] Tam test kapsamı
+[ ] configs/examples/ dosyaları
+[ ] tests/ birim testleri
 [ ] Son değerlendirme hazırlığı
 ```
