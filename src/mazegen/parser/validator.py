@@ -32,6 +32,9 @@ def _check_coords(config: dict) -> None:
               raise ValueError(f"EXIT {exit_} out of the grid"
                            f"0..{width - 1}, 0..{height - 1}.")
 
+     if entry == exit_:
+          raise ValueError(f"ENTR and EXIT don't be same. Both: {entry}")
+
 def _in_grid(coord: Tuple[int, int], width: int, height: int) -> bool:
      col, row = coord
      return 0 <= col < width and 0 <= row < height
