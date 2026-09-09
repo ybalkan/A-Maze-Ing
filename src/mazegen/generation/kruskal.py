@@ -1,4 +1,3 @@
-# ADIM 13 (Bonus) - Kruskal algoritması
 import random
 from mazegen.models.maze import Maze
 from mazegen.models.direction import Direction
