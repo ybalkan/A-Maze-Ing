@@ -6,22 +6,6 @@ from mazegen.generation.generator_base import GeneratorBase
 
 
 class RecursiveBacktracker(GeneratorBase):
-    """
-    DFS (Depth-First Search) tabanlı labirent üreteci.
-
-    Algoritma adımları:
-        1. Rastgele bir başlangıç hücresi seç, stack'e ekle
-        2. Stack doluyken:
-            a. Stack'in tepesindeki hücreye bak
-            b. Ziyaret edilmemiş komşu varsa:
-                - Rastgele birini seç
-                - Aradaki duvarı kaldır
-                - Komşuyu ziyaret et ve stack'e ekle
-            c. Yoksa stack'ten geri çekil (backtrack)
-        3. Stack boşaldığında labirent tamamdır
-
-    Sonuç: Perfect maze (her hücreye tam 1 yol, döngü yok)
-    """
 
     def generate(self) -> Maze:
         maze = Maze(self.width, self.height)
@@ -53,10 +37,6 @@ class RecursiveBacktracker(GeneratorBase):
         cell: 'Cell',  # type: ignore[name-defined]
         rng: random.Random,
     ) -> tuple | None:
-        """
-        Hücrenin ziyaret edilmemiş komşularını döner.
-        Rastgele birini seçer. Yoksa None döner.
-        """
         candidates = []
 
         for direction in Direction:
