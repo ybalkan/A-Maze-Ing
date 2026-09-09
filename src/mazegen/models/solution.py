@@ -10,4 +10,4 @@ class Solution:
         self.directions = directions
 
     def to_string(self) -> str:
-        return " ".join([d.name[0] for d in self.directions])
+        return "".join([d.name[0] for d in self.directions])

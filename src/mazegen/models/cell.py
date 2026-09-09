@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from .direction import Direction
 
 
-@dataclass(repr=False)
+@dataclass(repr=False, unsafe_hash=True)
 class Cell:
     col: int
     row: int
