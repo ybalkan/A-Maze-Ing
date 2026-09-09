@@ -32,6 +32,16 @@ def _parse_value(key: str, value: str) -> object:
         return int(value) if value.lower() != 'none' else None
     return value
 
+
 def _parse_coord(value: str) -> Tuple[int, int]:
-    parts = value.split(',')
-    return (int(parts[0].strip()), int(parts[1].strip()))
+    """'x,y' string'ini (int, int) tuple'ına çevirir."""
+    try:
+        parts = value.split(',')
+        if len(parts) != 2:
+            raise ValueError
+        return (int(parts[0].strip()), int(parts[1].strip()))
+    except (ValueError, IndexError):
+        raise ValueError(
+            f"Geçersiz koordinat formatı: '{value}'. "
+            f"Beklenen format: 'x,y' (örn: 0,0)"
+        )
