@@ -34,7 +34,6 @@ def _parse_value(key: str, value: str) -> object:
 
 
 def _parse_coord(value: str) -> Tuple[int, int]:
-    """'x,y' string'ini (int, int) tuple'ına çevirir."""
     try:
         parts = value.split(',')
         if len(parts) != 2:
@@ -42,6 +41,6 @@ def _parse_coord(value: str) -> Tuple[int, int]:
         return (int(parts[0].strip()), int(parts[1].strip()))
     except (ValueError, IndexError):
         raise ValueError(
-            f"Geçersiz koordinat formatı: '{value}'. "
-            f"Beklenen format: 'x,y' (örn: 0,0)"
+            f"Invalid coordinate format: '{value}'. "
+            f"Expected format: 'x,y' (etc: 0,0)"
         )
