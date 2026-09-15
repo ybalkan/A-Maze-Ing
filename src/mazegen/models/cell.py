@@ -8,6 +8,7 @@ class Cell:
     row: int
     walls: int = 0b1111
     visited: bool = False
+    is_42: bool = False
 
     def has_wall(self, direction: Direction) -> bool:
         return bool(self.walls & direction.value)
