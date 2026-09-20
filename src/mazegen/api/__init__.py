@@ -1,1 +1,3 @@
-# ADIM 29 (Paket) - API paketini dışa açma
+from .maze_generator import MazeGenerator
+
+__all__ = ["MazeGenerator"]
