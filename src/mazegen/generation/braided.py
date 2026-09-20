@@ -18,7 +18,7 @@ class BraidedGenerator(GeneratorBase):
     ) -> None:
         super().__init__(width, height, seed)
         if not 0.0 <= braid_ratio <= 1.0:
-            raise ValueError("braid_ratio 0.0 ile 1.0 arasında olmalıdır.")
+            raise ValueError("braid_ratio 0.0 with 1.0 should be between.")
         self.braid_ratio = braid_ratio
         self.base_algorithm = base_algorithm
 
