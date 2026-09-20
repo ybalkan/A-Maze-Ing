@@ -5,7 +5,6 @@ from typing import Optional
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
 
-# Renk paleti ve ASCII çizim modüllerini içe aktarıyoruz.
 from mazegen.rendering.color_palette import ColorPalette
 from mazegen.rendering.ascii_renderer import AsciiRenderer
 
@@ -16,8 +15,8 @@ from mazegen.parser.config_parser import parse_config
 
 def main() -> int:
     if len(sys.argv) not in (2, 3):
-        print("Kullanım: python3 a_maze_ing.py <config_dosyası>")
-        print("Örnek:    python3 a_maze_ing.py configs/config.txt")
+        print("Use: python3 a_maze_ing.py <config_dosyası>")
+        print("Example: python3 a_maze_ing.py configs/config.txt")
         return 1
 
     config_path = ""
@@ -25,22 +24,22 @@ def main() -> int:
         config_path = arg
 
     if not config_path:
-        print("Hata: Config dosyası belirtilmedi.")
+        print("Error: Config file not found.")
         return 1
 
     try:
         cfg = parse_config(config_path)
     except FileNotFoundError:
-        print(f"Hata: Config dosyası bulunamadı: '{config_path}'")
+        print(f"Error: Config file not found: '{config_path}'")
         return 1
     except ValueError as e:
-        print(f"Hata (config format): {e}")
+        print(f"Error (config format): {e}")
         return 1
 
     try:
         validate_config(cfg)
     except ValueError as e:
-        print(f"Hata (config doğrulama): {e}")
+        print(f"Error (config validation): {e}")
         return 1
 
     width: int = cfg["WIDTH"]
@@ -71,9 +70,9 @@ def main() -> int:
 
     try:
         mg.export(output_file)
-        print(f"Çıktı dosyası yazıldı: {output_file}")
+        print(f"Output file written: {output_file}")
     except OSError as e:
-        print(f"Uyarı: Output dosyası yazılamadı: {e}")
+        print(f"Warning: Output file could not be written: {e}")
 
     palette = ColorPalette()
     renderer = AsciiRenderer(mg, entry, exit_, palette,
