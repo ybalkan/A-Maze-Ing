@@ -1,4 +1,4 @@
-# Hata: ENTRY yanlış tuple formatı (virgül yerine noktalı virgül)
+# Error: ENTRY has wrong tuple format (semicolon instead of comma)
 WIDTH=20
 HEIGHT=15
 ENTRY=0;0

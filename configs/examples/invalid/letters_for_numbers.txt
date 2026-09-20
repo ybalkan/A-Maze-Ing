@@ -1,4 +1,4 @@
-# Hata: WIDTH sayı yerine harf
+# Error: WIDTH uses letters instead of a number
 WIDTH=twenty
 HEIGHT=15
 ENTRY=0,0

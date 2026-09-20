@@ -1,4 +1,4 @@
-# Hata: WIDTH anahtarı eksik
+# Error: WIDTH key is missing
 HEIGHT=15
 ENTRY=0,0
 EXIT=19,14

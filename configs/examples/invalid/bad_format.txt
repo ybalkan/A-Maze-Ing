@@ -1,4 +1,4 @@
-# Hata: HEIGHT satırında = işareti yok
+# Error: HEIGHT line is missing the = sign
 WIDTH=20
 HEIGHT 15
 ENTRY=0,0

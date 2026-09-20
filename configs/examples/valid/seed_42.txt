@@ -1,4 +1,4 @@
-# Tekrarlanabilirlik testi — her çalıştırmada aynı labirent
+# Reproducibility test — same maze every run
 WIDTH=20
 HEIGHT=15
 ENTRY=0,0
