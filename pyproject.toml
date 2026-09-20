@@ -25,6 +25,14 @@ build-backend = "hatchling.build"
 [tool.hatch.build.targets.wheel]
 packages = ["src/mazegen"]
 
+[tool.hatch.build.targets.sdist]
+exclude = [
+  "/.venv*",
+  "/obj",
+  "/mlx-2.2",
+  "__pycache__"
+]
+
 [tool.mypy]
 python_version = "3.10"
 warn_return_any = true
