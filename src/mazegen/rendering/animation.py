@@ -30,15 +30,14 @@ def animate_generation(
         step_count += 1
         _clear()
         print(render(maze, actual_entry, actual_exit, p, STYLE_LINE, STYLES_42[0]))
-        # Tamamlanma yüzdesini hesaplayıp gösteriyoruz.
         pct = int(100 * step_count / max(1, total_cells - 1))
-        print(f"⏳ Üretiliyor... {pct}%")
+        print(f"⏳ Generating... {pct}%")
         time.sleep(delay)
 
     maze.reset_visited_flags()
     _clear()
     print(render(maze, actual_entry, actual_exit, p, STYLE_LINE, STYLES_42[0]))
-    print("✅ Labirent hazır!")
+    print("✅ Maze ready!")
     return maze
 
 
@@ -60,7 +59,7 @@ class SolutionAnimator:
         visited: Set[Tuple[int, int]] = set()
         for cell_coord in self.solution.path_cells:
             visited.add(cell_coord)
-            yield frozenset(visited)
+            yield set(visited)
 
     def animate_terminal(
         self,
@@ -91,7 +90,7 @@ class SolutionAnimator:
                 solution=temp_solution,
                 show_solution=True,
             ))
-            print(f"🧭 Adım {step_idx}/{len(path)}  "
+            print(f"🧭 Step {step_idx}/{len(path)}  "
                   f"[{cell_coord[0]},{cell_coord[1]}]")
 
             if self.speed > 0.0:
