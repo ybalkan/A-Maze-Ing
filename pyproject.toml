@@ -41,5 +41,3 @@ check_untyped_defs = true
 cache_dir   = "obj/.pytest_cache"
 testpaths   = ["tests"]
 addopts     = "-v"
-
-
