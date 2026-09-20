@@ -1,20 +1,29 @@
-.PHONY: install run debug lint test build clean fclean
+.PHONY: all install run debug lint lint-strict test build clean fclean re venv
 
 PYTHON     = python3
+VENV_BIN   = .venv/bin
 MAIN       = a_maze_ing.py
-CONFIG     = configs/default.txt
+CONFIG     = configs/config.txt
 OBJ_DIR    = obj
+SRCS       = $(shell find src -name "*.py")
 
 # Python bytecode cache'ini obj/ altına yönlendir
 export PYTHONPYCACHEPREFIX = $(OBJ_DIR)/pycache
+
+# ── Varsayılan Hedef ──────────────────────────────────────────
+all: build
 
 # obj/ klasörü yoksa oluştur
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
 
+
 # ── Kurulum ───────────────────────────────────────────
+# Sanal ortam (make venv) zaten oluşturulmuşsa .venv/bin/pip kullan.
+# Yoksa sistem Python'u — externally-managed-environment hatası verebilir.
 install: $(OBJ_DIR)
-	$(PYTHON) -m pip install -e ".[dev]"
+	.venv/bin/pip install -e ".[dev]" 2>/dev/null || \
+	  $(PYTHON) -m pip install --break-system-packages -e ".[dev]"
 
 # ── Çalıştırma ────────────────────────────────────────
 run: $(OBJ_DIR)
@@ -24,27 +33,52 @@ run: $(OBJ_DIR)
 debug: $(OBJ_DIR)
 	$(PYTHON) -m pdb $(MAIN) $(CONFIG)
 
-# ── Kod kalitesi ──────────────────────────────────────
+# ── Kod kalitesi ──────────────────────────────────────────────────────
 lint: $(OBJ_DIR)
-	flake8 . && \
-	mypy . \
+	$(VENV_BIN)/flake8 . && \
+	$(VENV_BIN)/mypy . \
 	  --cache-dir $(OBJ_DIR)/.mypy_cache \
+	  --exclude "42" \
+	  --exclude "maze_analyzer" \
 	  --warn-return-any \
 	  --warn-unused-ignores \
 	  --ignore-missing-imports \
 	  --disallow-untyped-defs \
 	  --check-untyped-defs
 
+# ── Sıkı tip kontrolü (bonus) ──────────────────────────
+# Kullanım: make lint-strict
+# NOT: 'make lint --strict' YANLIŞ — '--strict' Make'e geçer, mypy'ye değil.
+lint-strict: $(OBJ_DIR)
+	$(VENV_BIN)/flake8 . && \
+	$(VENV_BIN)/mypy . \
+	  --cache-dir $(OBJ_DIR)/.mypy_cache \
+	  --exclude "42" \
+	  --exclude "maze_analyzer" \
+	  --strict \
+	  --ignore-missing-imports
+
 # ── Testler ───────────────────────────────────────────
 test: $(OBJ_DIR)
-	$(PYTHON) -m pytest tests/ -v \
-	  --cache-dir=$(OBJ_DIR)/.pytest_cache
+	PYTHONPATH=src $(VENV_BIN)/pytest tests/ -v \
+	  -o cache_dir=$(OBJ_DIR)/.pytest_cache
 
-# ── Paket derleme (whl + tar.gz) ─────────────────────
-build: $(OBJ_DIR)
-	$(PYTHON) -m build --outdir $(OBJ_DIR)/dist
+venv:
+	$(PYTHON) -m venv .venv
+	.venv/bin/pip install --upgrade pip
+	.venv/bin/pip install -e ".[dev]"
+	@echo ""
+	@echo "✅  Sanal ortam hazır! Aktif etmek için:"
+	@echo "    source .venv/bin/activate"
+	@echo ""
+
+# ── Paket derleme (whl) ─────────────────────
+build: $(OBJ_DIR)/.built
+
+$(OBJ_DIR)/.built: pyproject.toml $(SRCS) | $(OBJ_DIR)
+	$(PYTHON) -m build --wheel --outdir $(OBJ_DIR)/dist
 	cp $(OBJ_DIR)/dist/mazegen-*.whl . 2>/dev/null || true
-	cp $(OBJ_DIR)/dist/mazegen-*.tar.gz . 2>/dev/null || true
+	@touch $(OBJ_DIR)/.built
 	@echo "Paket root'a kopyalandı."
 
 # ── Temizlik (obj/ ve egg-info) ───────────────────────
@@ -57,5 +91,9 @@ clean:
 # ── Tam temizlik (output + whl dahil) ────────────────
 fclean: clean
 	rm -f output_maze.txt
-	rm -f mazegen-*.whl mazegen-*.tar.gz
+	rm -f mazegen-*.whl
 	@echo "Complete cleanup finished."
+
+# ── Yeniden oluştur ───────────────────────────────────
+re: fclean all
+
