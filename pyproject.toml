@@ -10,10 +10,6 @@ license = { file = "LICENSE.md" }
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = []
-# NOT: Kod yazılırken dış kütüphane kullanılırsa buraya ekle.
-# Örnek: dependencies = ["mlx>=2.2", "numpy>=1.24"]
-# Şu an boş — saf stdlib ile gidilecek, gerekirse güncelle.
-
 
 [project.optional-dependencies]
 dev = ["flake8", "mypy", "pytest", "build"]
