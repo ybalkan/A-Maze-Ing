@@ -55,7 +55,7 @@ venv:
 	.venv/bin/pip install --upgrade pip
 	.venv/bin/pip install -e ".[dev]"
 	@echo ""
-	@echo "✅  Sanal ortam hazır! Aktif etmek için:"
+	@echo "✅  The virtual environment is ready! To activate it:"
 	@echo "    source .venv/bin/activate"
 	@echo ""
 
@@ -65,7 +65,7 @@ $(OBJ_DIR)/.built: pyproject.toml $(SRCS) | $(OBJ_DIR)
 	$(PYTHON) -m build --wheel --outdir $(OBJ_DIR)/dist
 	cp $(OBJ_DIR)/dist/mazegen-*.whl . 2>/dev/null || true
 	@touch $(OBJ_DIR)/.built
-	@echo "Paket root'a kopyalandı."
+	@echo "The package was copied to the root.."
 
 clean:
 	rm -rf $(OBJ_DIR)
