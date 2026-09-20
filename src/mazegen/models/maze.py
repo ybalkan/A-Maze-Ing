@@ -6,6 +6,8 @@ from .direction import Direction
 
 @dataclass
 class Maze:
+    width: int
+    height: int
     grid: List[List[Cell]] = field(init=False)
 
     def __post_init__(self) -> None:
@@ -66,7 +68,7 @@ class Maze:
         p_height = len(pattern)
 
         if self.width < p_width + 2 or self.height < p_height + 2:
-            print("Uyarı: Labirent boyutu '42' desenini çizmek için çok küçük.")
+            print("Warning: Maze size is too small to draw the '42' pattern.")
             return
 
         start_col = (self.width - p_width) // 2
