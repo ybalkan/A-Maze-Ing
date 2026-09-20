@@ -5,23 +5,21 @@ from typing import Optional
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
 
-from mazegen.rendering.color_palette import ColorPalette
-from mazegen.rendering.ascii_renderer import AsciiRenderer
+from mazegen.rendering.color_palette import ColorPalette  # noqa: E402
+from mazegen.rendering.ascii_renderer import AsciiRenderer  # noqa: E402
 
-from mazegen.api.maze_generator import MazeGenerator
-from mazegen.parser.validator import validate_config
-from mazegen.parser.config_parser import parse_config
+from mazegen.api.maze_generator import MazeGenerator  # noqa: E402
+from mazegen.parser.validator import validate_config  # noqa: E402
+from mazegen.parser.config_parser import parse_config  # noqa: E402
 
 
 def main() -> int:
     if len(sys.argv) not in (2, 3):
-        print("Use: python3 a_maze_ing.py <config_dosyası>")
+        print("Use: python3 a_maze_ing.py <config_file>")
         print("Example: python3 a_maze_ing.py configs/config.txt")
         return 1
 
-    config_path = ""
-    for arg in sys.argv[1:]:
-        config_path = arg
+    config_path = sys.argv[1]
 
     if not config_path:
         print("Error: Config file not found.")
@@ -87,7 +85,7 @@ def main() -> int:
         except OSError:
             pass
 
-    renderer._regenerate = _regenerate_and_export
+    renderer._regenerate = _regenerate_and_export  # type: ignore[method-assign]
 
     renderer.run()
     return 0
