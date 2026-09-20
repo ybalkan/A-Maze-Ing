@@ -13,7 +13,7 @@ def parse_config(filepath: str) -> Dict[str, Any]:
 
             if '=' not in line:
                 raise ValueError(
-                    f"Config format hatası: '=' işareti yok → '{line}'"
+                    f"Config format error: missing '=' sign → '{line}'"
                 )
 
             key, _, value = line.partition('=')
@@ -34,23 +34,23 @@ def _parse_value(key: str, value: str) -> object:
             return int(value)
         except ValueError:
             raise ValueError(
-                f"{key} için geçersiz tamsayı değeri: '{value}'. "
-                f"Tam sayı olmalı (örn: {key}=20)"
+                f"{key} has an invalid integer value: '{value}'. "
+                f"Must be an integer (e.g. {key}=20)"
             )
 
     if key == 'PERFECT':
         if value.lower() not in ('true', 'false'):
             raise ValueError(
-                f"PERFECT için geçersiz değer: '{value}'. "
-                f"'True' veya 'False' olmalı."
+                f"Invalid value for PERFECT: '{value}'. "
+                f"Must be 'True' or 'False'."
             )
         return value.lower() == 'true'
 
     if key == 'ANIMATION':
         if value.lower() not in ('true', 'false'):
             raise ValueError(
-                f"ANIMATION için geçersiz değer: '{value}'. "
-                f"'True' veya 'False' olmalı."
+                f"Invalid value for ANIMATION: '{value}'. "
+                f"Must be 'True' or 'False'."
             )
         return value.lower() == 'true'
 
@@ -59,13 +59,13 @@ def _parse_value(key: str, value: str) -> object:
             speed = float(value)
         except ValueError:
             raise ValueError(
-                f"ANIMATION_SPEED için geçersiz ondalık değer: '{value}'. "
-                f"Sayısal bir değer olmalı (örn: 0.05)"
+                f"Invalid decimal value for ANIMATION_SPEED: '{value}'. "
+                f"Must be a numeric value (e.g. 0.05)"
             )
         if speed < 0.0:
             raise ValueError(
-                f"ANIMATION_SPEED negatif olamaz: {speed}. "
-                f"0.0 veya daha büyük bir değer verin."
+                f"ANIMATION_SPEED cannot be negative: {speed}. "
+                f"Provide a value of 0.0 or greater."
             )
         return speed
 
@@ -83,6 +83,6 @@ def _parse_coord(value: str) -> Tuple[int, int]:
         return (int(parts[0].strip()), int(parts[1].strip()))
     except (ValueError, IndexError):
         raise ValueError(
-            f"Geçersiz koordinat formatı: '{value}'. "
-            f"Beklenen format: 'x,y' (örn: 0,0)"
+            f"Invalid coordinate format: '{value}'. "
+            f"Expected format: 'x,y' (e.g. 0,0)"
         )
