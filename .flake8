@@ -3,6 +3,8 @@ max-line-length = 99
 exclude =
     .git,
     .venv,
+    .venv-1,
+    .venv*,
     obj,
     build,
     dist,
