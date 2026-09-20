@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import sys
 import dataclasses
-from typing import Optional, Set, Tuple
+from typing import Optional, Set, Tuple, Any
 
 from ..models.maze import Maze
 from ..models.solution import Solution
@@ -33,7 +33,7 @@ class RendererStyle:
 
 
 STYLE_LINE = RendererStyle(
-    name="Klasik",
+    name="Classic",
     wall_h="──", wall_v="│", corner="┼",
     t_top="┬", t_bot="┴", t_left="├", t_right="┤",
     tl="┌", tr="┐", bl="└", br="┘", space_h="  ", space_v=" ",
@@ -41,7 +41,7 @@ STYLE_LINE = RendererStyle(
 )
 
 STYLE_DUNGEON = RendererStyle(
-    name="Zindan",
+    name="Dungeon",
     wall_h="🧱", wall_v="🧱", corner="🧱",
     t_top="🧱", t_bot="🧱", t_left="🧱", t_right="🧱",
     tl="🧱", tr="🧱", bl="🧱", br="🧱", space_h="  ", space_v="  ",
@@ -49,7 +49,7 @@ STYLE_DUNGEON = RendererStyle(
 )
 
 STYLE_ALL_BLOCK = RendererStyle(
-    name="Tam Blok",
+    name="Full Block",
     wall_h="██", wall_v="██", corner="██",
     t_top="██", t_bot="██", t_left="██", t_right="██",
     tl="██", tr="██", bl="██", br="██", space_h="  ", space_v="  ",
@@ -149,7 +149,7 @@ def render(
     bot += wc + style.br + RESET
     lines.append(bot)
 
-    return "".join(lines)
+    return "\n".join(lines)
 
 
 def print_maze(
@@ -170,29 +170,29 @@ def _menu(
     show_solution: bool, seed: Optional[int],
     perfect: bool = False
 ) -> None:
-    seed_str = str(seed) if seed is not None else "rastgele"
-    path_str = "GİZLE" if show_solution else "GÖSTER"
-    mode_str = "PERFECT (Tek Yol, Döngüsüz)" if perfect else "PAC-MAN (Çoklu Yol, Braided)"
+    seed_str = str(seed) if seed is not None else "random"
+    path_str = "HIDE" if show_solution else "SHOW"
+    mode_str = "PERFECT (Single Path, No Loops)" if perfect else "PAC-MAN (Multi-Path, Braided)"
     print()
     print("  ==========================================")
-    print(f"   AKTİF TEMA: {style.name}")
+    print(f"   ACTIVE THEME: {style.name}")
     print("  ==========================================")
-    print("   Durum:")
-    print(f"   - Mod  : {mode_str}")
-    print(f"   - Renk : {palette.wall}{palette.name}{RESET}")
-    print(f"   - Yol  : {path_str}")
-    print(f"   - Seed : {seed_str}")
+    print("   Status:")
+    print(f"   - Mode  : {mode_str}")
+    print(f"   - Color : {palette.wall}{palette.name}{RESET}")
+    print(f"   - Path  : {path_str}")
+    print(f"   - Seed  : {seed_str}")
     print()
-    print("   Kontroller:")
-    print("   [T] Komple Temayı Değiştir (Önerilen)")
-    print("   [R] Yeni Labirent Üret")
-    print("   [M] Mod Değiştir (Perfect <-> Pac-Man)")
-    print("   [P] Çözüm Yolunu Aç / Kapat")
-    print("   [A] Çözüm Animasyonunu Başlat")
-    print("   [C] Duvar Rengini Değiştir")
-    print("   [S] Duvar Stilini (Özel)")
-    print("   [N] 42 Desenini (Özel)")
-    print("   [Q] Çıkış")
+    print("   Controls:")
+    print("   [T] Change Full Theme (Recommended)")
+    print("   [R] Generate New Maze")
+    print("   [M] Toggle Mode (Perfect <-> Pac-Man)")
+    print("   [P] Toggle Solution Path")
+    print("   [A] Start Solution Animation")
+    print("   [C] Change Wall Color")
+    print("   [S] Change Wall Style (Custom)")
+    print("   [N] Change 42 Pattern (Custom)")
+    print("   [Q] Quit")
     print("  ==========================================")
     print("  > ", end="", flush=True)
 
@@ -201,7 +201,7 @@ class AsciiRenderer:
 
     def __init__(
         self,
-        maze_generator: object,
+        maze_generator: Any,
         entry: Tuple[int, int],
         exit_: Tuple[int, int],
         palette: Optional[ColorPalette] = None,
@@ -344,5 +344,5 @@ class AsciiRenderer:
                 self._42_idx = (self._42_idx + 1) % len(STYLES_42)
             elif ch in ("q", "", ""):
                 _clear()
-                print("Görüşürüz!")
+                print("Goodbye!")
                 break
