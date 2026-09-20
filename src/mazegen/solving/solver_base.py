@@ -4,6 +4,7 @@ from mazegen.models.solution import Solution
 
 
 class SolverBase(ABC):
+
     def __init__(
         self,
         maze: Maze,
@@ -11,8 +12,8 @@ class SolverBase(ABC):
         exit_: tuple[int, int],
     ) -> None:
         self.maze = maze
-        self.entry = entry   # (col, row)
-        self.exit_ = exit_   # (col, row)
+        self.entry = entry
+        self.exit_ = exit_
 
     @abstractmethod
     def solve(self) -> Solution | None:
