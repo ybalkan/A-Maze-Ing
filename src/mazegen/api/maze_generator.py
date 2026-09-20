@@ -89,7 +89,7 @@ class MazeGenerator:
 
     def solve(self, solver: Optional[str] = None) -> Optional[Solution]:
         if self._maze is None:
-            raise RuntimeError("Önce generate() çağrılmalı.")
+            raise RuntimeError("Error: generate() must be called first.")
 
         solver_name = solver or self.solver_name
         solver_cls = _SOLVERS.get(solver_name)
