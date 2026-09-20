@@ -57,14 +57,14 @@ class MazeGenerator:
 
         if self.perfect and self.algorithm == "braided":
             self.algorithm = "recursive_backtracker"
-            print("Uyarı: PERFECT=true iken 'braided' algoritması "
-                  "kullanılamaz. 'recursive_backtracker' kullanılıyor.")
+            print("Warning: When PERFECT=true, the 'braided' algorithm "
+                  "cannot be used. Using 'recursive_backtracker' instead.")
 
         algo_cls = _GENERATORS.get(self.algorithm)
         if algo_cls is None:
             raise ValueError(
-                f"Bilinmeyen algoritma: '{self.algorithm}'. "
-                f"Seçenekler: {list(_GENERATORS)}"
+                f"Unknown algorithm: '{self.algorithm}'. "
+                f"Choices: {list(_GENERATORS)}"
             )
 
         if not self.perfect:
@@ -95,8 +95,8 @@ class MazeGenerator:
         solver_cls = _SOLVERS.get(solver_name)
         if solver_cls is None:
             raise ValueError(
-                f"Bilinmeyen çözücü: '{solver_name}'. "
-                f"Seçenekler: {list(_SOLVERS)}"
+                f"Unknown solver: '{solver_name}'. "
+                f"Choices: {list(_SOLVERS)}"
             )
 
         s = solver_cls(self._maze, self.entry, self.exit_)
@@ -105,7 +105,7 @@ class MazeGenerator:
 
     def get_maze(self) -> Maze:
         if self._maze is None:
-            raise RuntimeError("Önce generate() çağrılmalı.")
+            raise RuntimeError("Error: generate() must be called first.")
         return self._maze
 
     def get_solution(self) -> Optional[Solution]:
@@ -113,7 +113,7 @@ class MazeGenerator:
 
     def export(self, output_path: str) -> None:
         if self._maze is None:
-            raise RuntimeError("Önce generate() çağrılmalı.")
+            raise RuntimeError("Error: generate() must be called first.")
         write_output(
             maze=self._maze,
             entry=self.entry,
