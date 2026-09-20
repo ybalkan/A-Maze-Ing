@@ -6,6 +6,7 @@ from .direction import Direction
 class Cell:
     col: int
     row: int
+
     walls: int = 0b1111
     visited: bool = False
     is_42: bool = False
@@ -20,7 +21,7 @@ class Cell:
         self.walls &= ~direction.value
 
     def to_hex(self) -> str:
-        return f"{self.walls:X}"
+        return f"{self.walls:x}"
 
     def from_hex(self, hex_char: str) -> None:
         self.walls = int(hex_char, 16)
